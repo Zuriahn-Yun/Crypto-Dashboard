@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #000000;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -22,10 +22,10 @@
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: #000000;
+            border: 2px solid #ffffff;
             border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1);
             padding: 40px;
             max-width: 600px;
             width: 100%;
@@ -36,22 +36,18 @@
 
         .container:hover {
             transform: translateY(-5px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 25px 50px rgba(255, 255, 255, 0.2);
         }
 
         h1 {
-            color: #2c3e50;
+            color: #ffffff;
             margin-bottom: 10px;
             font-size: 2.5em;
             font-weight: 700;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
         .subtitle {
-            color: #7f8c8d;
+            color: #ffffff;
             margin-bottom: 30px;
             font-size: 1.1em;
         }
@@ -65,25 +61,26 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: #34495e;
+            color: #ffffff;
             font-size: 1.1em;
         }
 
         input[type="text"] {
             width: 100%;
             padding: 15px 20px;
-            border: 2px solid #e0e6ed;
+            border: 2px solid #ffffff;
             border-radius: 12px;
             font-size: 16px;
             transition: all 0.3s ease;
-            background: #f8f9fa;
+            background: #000000;
+            color: #ffffff;
         }
 
         input[type="text"]:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-            background: white;
+            border-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+            background: #000000;
         }
 
         .button-group {
@@ -107,14 +104,14 @@
         }
 
         .btn-primary {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
+            background: #ffffff;
+            color: #000000;
         }
 
         .btn-primary:hover {
-            background: linear-gradient(45deg, #5a67d8, #6b46c1);
+            background: #cccccc;
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.3);
         }
 
         .btn-secondary {
@@ -131,11 +128,11 @@
         .popular-coins {
             margin-top: 30px;
             padding-top: 30px;
-            border-top: 2px solid #e0e6ed;
+            border-top: 2px solid #ffffff;
         }
 
         .popular-coins h3 {
-            color: #2c3e50;
+            color: #ffffff;
             margin-bottom: 15px;
             font-size: 1.3em;
         }
@@ -149,10 +146,10 @@
 
         .coin-btn {
             padding: 10px 20px;
-            background: rgba(102, 126, 234, 0.1);
-            border: 2px solid #667eea;
+            background: #000000;
+            border: 2px solid #ffffff;
             border-radius: 25px;
-            color: #667eea;
+            color: #ffffff;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -160,15 +157,15 @@
         }
 
         .coin-btn:hover {
-            background: #667eea;
-            color: white;
+            background: #ffffff;
+            color: #000000;
             transform: scale(1.05);
         }
 
         .loading {
             display: none;
             margin-top: 20px;
-            color: #667eea;
+            color: #ffffff;
             font-weight: 600;
         }
 
@@ -176,8 +173,8 @@
             display: inline-block;
             width: 20px;
             height: 20px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
+            border: 3px solid #333333;
+            border-top: 3px solid #ffffff;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-right: 10px;
@@ -189,10 +186,11 @@
         }
 
         .error {
-            color: #e74c3c;
+            color: #ffffff;
             margin-top: 15px;
             padding: 10px;
-            background: rgba(231, 76, 60, 0.1);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #ffffff;
             border-radius: 8px;
             display: none;
         }
@@ -214,8 +212,8 @@
 </head>
 <body>
     <div class="container">
-        <h1>📊 Crypto Dashboard</h1>
-        <p class="subtitle">Display Crypto Candles</p>
+        <h1>Crypto Data Viewer</h1>
+        <p class="subtitle">Explore cryptocurrency data and visualizations</p>
         
         <form id="cryptoForm">
             <div class="form-group">
@@ -224,7 +222,7 @@
             </div>
             
             <div class="button-group">
-                <button type="submit" class="btn-primary">📈 View Chart</button>
+                <button type="submit" class="btn-primary">View Chart</button>
             </div>
         </form>
 
