@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cryptocurrency Data Viewer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            transform: translateY(0);
+            transition: all 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            font-weight: 700;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #34495e;
+            font-size: 1.1em;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e6ed;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background: white;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            justify-content: center;
+        }
+
+        button {
+            flex: 1;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #5a67d8, #6b46c1);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #48bb78, #38a169);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(45deg, #38a169, #2f855a);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(72, 187, 120, 0.3);
+        }
+
+        .popular-coins {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e6ed;
+        }
+
+        .popular-coins h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .coin-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .coin-btn {
+            padding: 10px 20px;
+            background: rgba(102, 126, 234, 0.1);
+            border: 2px solid #667eea;
+            border-radius: 25px;
+            color: #667eea;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .coin-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .loading {
+            display: none;
+            margin-top: 20px;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            color: #e74c3c;
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(231, 76, 60, 0.1);
+            border-radius: 8px;
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Crypto Dashboard</h1>
+        <p class="subtitle">Display Crypto Candles</p>
+        
+        <form id="cryptoForm">
+            <div class="form-group">
+                <label for="coinId">Enter Coin ID:</label>
+                <input type="text" id="coinId" name="coinId" placeholder="e.g., bitcoin, ethereum, cardano" required>
+            </div>
+            
+            <div class="button-group">
+                <button type="submit" class="btn-primary">📈 View Chart</button>
+            </div>
+        </form>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            Loading cryptocurrency data...
+        </div>
+
+        <div class="error" id="error"></div>
+
+        <div class="popular-coins">
+            <h3>Popular Cryptocurrencies</h3>
+            <div class="coin-buttons">
+                <button class="coin-btn" onclick="setCoinId('bitcoin')">Bitcoin</button>
+                <button class="coin-btn" onclick="setCoinId('ethereum')">Ethereum</button>
+                <button class="coin-btn" onclick="setCoinId('cardano')">Cardano</button>
+                <button class="coin-btn" onclick="setCoinId('polkadot')">Polkadot</button>
+                <button class="coin-btn" onclick="setCoinId('chainlink')">Chainlink</button>
+                <button class="coin-btn" onclick="setCoinId('litecoin')">Litecoin</button>
+                <button class="coin-btn" onclick="setCoinId('stellar')">Stellar</button>
+                <button class="coin-btn" onclick="setCoinId('dogecoin')">Dogecoin</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'https://crypto-engineering.onrender.com';
+        
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('error').style.display = 'none';
+        }
+        
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
+        }
+        
+        function showError(message) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            hideLoading();
+        }
+        
+        function setCoinId(coinId) {
+            document.getElementById('coinId').value = coinId;
+            // Add a small animation to show the input was updated
+            const input = document.getElementById('coinId');
+            input.style.transform = 'scale(1.05)';
+            setTimeout(() => {
+                input.style.transform = 'scale(1)';
+            }, 150);
+        }
+        
+        function viewCoinData(coinId) {
+            if (!coinId.trim()) {
+                showError('Please enter a coin ID');
+                return;
+            }
+            
+            showLoading();
+            const coinUrl = `${API_BASE_URL}/coin_data?coin_id=${encodeURIComponent(coinId.toLowerCase())}`;
+            
+            // Open the URL directly (avoid CORS issues)
+            window.open(coinUrl, '_blank');
+            hideLoading();
+        }
+        
+        // Handle form submission
+        document.getElementById('cryptoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const coinId = document.getElementById('coinId').value;
+            viewCoinData(coinId);
+        });
+        
+        // Handle Enter key in input field
+        document.getElementById('coinId').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const coinId = this.value;
+                viewCoinData(coinId);
+            }
+        });
+    </script>
+</body>
+</html>
